@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+.drop-down-links {
+  @apply block p-2 bg-green-900 text-white hover:bg-blue-300;
+}
+
+.links {
+  @apply hover:bg-green-900 md:text-xl md:max-lg:text-sm shadow-inner shadow-black hover:font-bold p-4 sm:p-1 rounded-md;
+}
+
+/* @utility bg1 {
+  background-image: linear-gradient(
+      rgba(17, 63, 17, 0.459),
+      rgb(255, 255, 255, 0.23),
+      rgba(9, 9, 185, 0.466)
+    ),
+    url("../Images/logo.jpg");
+  background-position: cover;
+  background-attachment: fixed;
+} */
+
+@utility bg1 {
+  background-image: url("../Images/bg1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+@utility navbar {
+  position: fixed;
+  top: 0;
+}
+
+@utility profile {
+  width: 120px;
+  height: 120px;
+  border-radius: 25px;
+  box-shadow: 0.5 0.5 1rem transparent;
+}
