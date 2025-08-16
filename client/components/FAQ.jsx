@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const FAQ = () => {
-  // Sample FAQ data (replace with real questions and answers)
+
   const faqs = [
     {
       id: 1,

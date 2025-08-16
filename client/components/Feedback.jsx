@@ -8,6 +8,7 @@ const Feedback = () => {
   // State for suggestions box
   const [suggestionData, setSuggestionData] = useState({ name: '', suggestion: '' });
   const [suggestions, setSuggestions] = useState([
+    
     // Sample suggestions (replace or fetch from backend)
     { id: 1, name: 'Anonymous', suggestion: 'Host a coding bootcamp for members.', date: 'Feb 20, 2025' },
     { id: 2, name: 'Fatima', suggestion: 'Add more Krio language workshops.', date: 'Feb 18, 2025' },

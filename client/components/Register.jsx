@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Register = ({ users, handleRegister }) => {
   const navigate = useNavigate();
   const [stateUniversities, setStateUniversities] = useState([]);
@@ -57,7 +59,7 @@ const Register = ({ users, handleRegister }) => {
   const getPrivateUniversity = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/university/private"
+        `${apiUrl}/university/private`
       );
       const universities = data.map((u) => u.name);
       setPrivateUniversities(universities);
@@ -68,7 +70,7 @@ const Register = ({ users, handleRegister }) => {
   const getStateUniversity = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/university/state"
+        `${apiUrl}/university/state`
       );
       const universities = data.map((u) => u.name);
       setStateUniversities(universities);
