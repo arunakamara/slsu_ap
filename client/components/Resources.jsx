@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Resources = () => {
   // Sample data (replace with real content or API fetch)

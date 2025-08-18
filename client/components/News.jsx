@@ -1,4 +1,3 @@
-import React from "react";
 const newsItems = [
   {
     id: 1,

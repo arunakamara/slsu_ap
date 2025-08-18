@@ -1,4 +1,3 @@
-import React from 'react';
 
 const Highlights = () => {
   // Sample data (replace with API fetch later if needed)

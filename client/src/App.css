@@ -20,7 +20,7 @@
 } */
 
 @utility bg1 {
-  background-image: url("../Images/bg1.jpg");
+  background-image: url("/Images/bg1.jpg");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
