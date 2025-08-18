@@ -5,7 +5,6 @@ import Modal from "react-modal";
 Modal.setAppElement("#root");
 
 const Gallery = () => {
-  // Sample data (replace with real photos and videos)
   const photos = [
     {
       id: 1,

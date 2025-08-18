@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const Events = () => {
-  // Sample event data (replace with real events or API fetch)
   const upcomingEvents = [
     {
       id: 1,

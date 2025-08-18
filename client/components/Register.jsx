@@ -5,7 +5,9 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+// const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = "https://slsu-ap.onrender.com"
+console.log(apiUrl)
 
 const Register = ({ users, handleRegister }) => {
   const navigate = useNavigate();
