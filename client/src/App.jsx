@@ -22,6 +22,7 @@ import Membership from "../components/Membership.jsx";
 import Resources from "../components/Resources";
 import Gallery from "../components/Gallery";
 import Contact from "../components/Contact";
+import CertificateVerification from "../components/CertificateVerification";
 import FAQ from "../components/FAQ.jsx";
 import Alumni from "../components/Alumni.jsx";
 import Feedback from "../components/Feedback.jsx";
@@ -90,6 +91,7 @@ function App() {
               <Route path="/events" element={<Events />} />
               <Route path="/news" element={<News />} />
               <Route path="/membership" element={<Membership />} />
+              <Route path="/verify-certificate" element={<CertificateVerification />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/contact" element={<Contact />} />
