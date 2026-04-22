@@ -1,22 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
-const knownCertificates = [
-  {
-    id: "SLSU-AP-2025-001",
-    holderName: "Amina Conteh",
-    issueYear: "2025",
-    program: "Diploma in Computer Science",
-    institution: "Sierra Leone Students Union - Andhra Pradesh",
-  },
-  {
-    id: "SLSU-AP-2025-002",
-    holderName: "Musa Kamara",
-    issueYear: "2025",
-    program: "Bachelor of Commerce",
-    institution: "Sierra Leone Students Union - Andhra Pradesh",
-  },
-];
+import http from "../services/httpService";
 
 const CertificateVerification = () => {
   const [searchParams] = useSearchParams();
@@ -24,56 +8,71 @@ const CertificateVerification = () => {
   const [holderName, setHolderName] = useState("");
   const [issueYear, setIssueYear] = useState("");
   const [verificationResult, setVerificationResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const verifyCertificate = ({ id, name, year }) => {
+  const fetchCertificate = async ({ id, name, year }) => {
     const normalizedId = id?.trim().toUpperCase();
     if (!normalizedId) {
-      return {
+      setVerificationResult({
         status: "error",
         message: "Certificate number is required for verification.",
-      };
+      });
+      return;
     }
 
-    const matchedCertificate = knownCertificates.find(
-      (certificate) => certificate.id.toUpperCase() === normalizedId
-    );
+    setLoading(true);
+    try {
+      const { data } = await http.get(
+        `/api/certificates/verify?id=${encodeURIComponent(normalizedId)}`
+      );
+      const warnings = [];
 
-    if (!matchedCertificate) {
-      return {
-        status: "invalid",
-        message: "This certificate is invalid or not found in the verification registry.",
-      };
-    }
-
-    const warnings = [];
-    if (name && name.trim().length > 0) {
-      if (matchedCertificate.holderName.toLowerCase() !== name.trim().toLowerCase()) {
-        warnings.push("Holder name does not match the certificate record.");
+      if (name && name.trim().length > 0) {
+        if (data.holderName.toLowerCase() !== name.trim().toLowerCase()) {
+          warnings.push("Holder name does not match the certificate record.");
+        }
       }
-    }
-    if (year && year.trim().length > 0) {
-      if (matchedCertificate.issueYear !== year.trim()) {
-        warnings.push("Issue year does not match the certificate record.");
+      if (year && year.trim().length > 0) {
+        if (String(data.issueYear) !== year.trim()) {
+          warnings.push("Issue year does not match the certificate record.");
+        }
       }
-    }
 
-    return {
-      status: "valid",
-      message: "Certificate is valid.",
-      certificate: matchedCertificate,
-      warnings,
-    };
+      setVerificationResult({
+        status: "valid",
+        message: "Certificate is valid.",
+        certificate: data,
+        warnings,
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setVerificationResult({
+          status: "invalid",
+          message: "This certificate is invalid or not found in the verification registry.",
+          certificate: null,
+          warnings: [],
+        });
+      } else {
+        setVerificationResult({
+          status: "error",
+          message:
+            "Unable to verify the certificate right now. Please try again later.",
+          certificate: null,
+          warnings: [],
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setVerificationResult(
-      verifyCertificate({
-        id: certificateId,
-        name: holderName,
-        year: issueYear,
-      })
-    );
+    fetchCertificate({
+      id: certificateId,
+      name: holderName,
+      year: issueYear,
+    });
   };
 
   useEffect(() => {
@@ -85,9 +84,7 @@ const CertificateVerification = () => {
       setCertificateId(qrId);
       if (qrName) setHolderName(qrName);
       if (qrYear) setIssueYear(qrYear);
-      setVerificationResult(
-        verifyCertificate({ id: qrId, name: qrName, year: qrYear })
-      );
+      fetchCertificate({ id: qrId, name: qrName, year: qrYear });
     }
   }, [searchParams]);
 
@@ -145,9 +142,10 @@ const CertificateVerification = () => {
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-full bg-green-800 px-6 py-3 text-white text-lg font-semibold hover:bg-green-700 transition-colors"
+              disabled={loading}
+              className="inline-flex items-center justify-center rounded-full bg-green-800 px-6 py-3 text-white text-lg font-semibold hover:bg-green-700 transition-colors disabled:cursor-not-allowed disabled:bg-green-400"
             >
-              Verify Certificate
+              {loading ? "Checking..." : "Verify Certificate"}
             </button>
           </form>
 
@@ -173,7 +171,7 @@ const CertificateVerification = () => {
                   <h2 className="text-xl font-semibold text-green-800 mb-3">Certificate details</h2>
                   <ul className="space-y-2 text-gray-700">
                     <li>
-                      <strong>ID:</strong> {verificationResult.certificate.id}
+                      <strong>ID:</strong> {verificationResult.certificate.certificateId}
                     </li>
                     <li>
                       <strong>Holder:</strong> {verificationResult.certificate.holderName}

@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import http from "../services/httpService";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-// const apiUrl = import.meta.env.VITE_API_URL;
-const apiUrl = "https://slsu-ap.onrender.com"
-console.log(apiUrl)
 
 const Register = ({ users, handleRegister }) => {
   const navigate = useNavigate();
@@ -60,24 +56,20 @@ const Register = ({ users, handleRegister }) => {
 
   const getPrivateUniversity = async () => {
     try {
-      const { data } = await axios.get(
-        `${apiUrl}/university/private`
-      );
+      const { data } = await http.get("/api/university/private");
       const universities = data.map((u) => u.name);
       setPrivateUniversities(universities);
     } catch (ex) {
-      console.log(ex.response.data);
+      console.log(ex.response?.data || ex);
     }
   };
   const getStateUniversity = async () => {
     try {
-      const { data } = await axios.get(
-        `${apiUrl}/university/state`
-      );
+      const { data } = await http.get("/api/university/state");
       const universities = data.map((u) => u.name);
       setStateUniversities(universities);
     } catch (ex) {
-      console.log(ex.response.data);
+      console.log(ex.response?.data || ex);
     }
   };
 

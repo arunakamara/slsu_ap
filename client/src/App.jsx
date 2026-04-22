@@ -36,9 +36,7 @@ function App() {
 
   async function getMembers() {
     try {
-      const { data: members } = await http.get(
-        "http://localhost:5000/api/members"
-      );
+      const { data: members } = await http.get("/api/members");
       setUsers(members);
     } catch ({ response }) {
       console.log(response.data);
@@ -47,10 +45,7 @@ function App() {
 
   async function handleRegister(user) {
     try {
-       await http.post(
-        "http://localhost:5000/api/members",
-        user
-      );
+       await http.post("/api/members", user);
     } catch ({response}) {
       console.log(response.data);
     }
