@@ -68,7 +68,7 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <Router>
+      {/* <Router> */}
         <div className="flex flex-col justify-between min-h-screen bg1 ">
           <Navbar loggedIn={loggedIn} handleLogout={handleLogout} />
           <main>
@@ -127,7 +127,7 @@ function App() {
           </main>
           <Footer />
         </div>
-      </Router>
+      {/* </Router> */}
     </>
   );
 }
