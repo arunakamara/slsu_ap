@@ -9,7 +9,6 @@ const Sitemap = () => {
     { title: 'News & Announcements', path: '/news' },
     { title: 'Membership', path: '/membership' },
     { title: 'Resources', path: '/resources' },
-    { title: 'Certificate Verification', path: '/verify-certificate' },
     { title: 'Gallery', path: '/gallery' },
     { title: 'Contact Us', path: '/contact' },
     { title: 'FAQ', path: '/faq' },

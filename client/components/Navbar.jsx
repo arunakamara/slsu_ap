@@ -38,11 +38,6 @@ const Navbar = ({ loggedIn, handleLogout }) => {
               </Link>
             </li>
             <li>
-              <Link to="/verify-certificate" className="links">
-                Verify Certificate
-              </Link>
-            </li>
-            <li>
               <Link to="/resources" className="links">
                 Resources
               </Link>
