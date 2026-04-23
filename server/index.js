@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const cors = require("cors")
 const members = require("./routes/members");
 const home = require("./routes/home");
-const university = require("./routes/universities");
+const universities = require("./routes/universities");
 const certificates = require("./routes/certificates");
 const express = require("express");
 
@@ -19,7 +19,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use("/", home);
-app.use("/api/universities", university);
+app.use("/api/universities", universities);
 app.use("/api/members", members);
 app.use("/api/certificates", certificates);
 

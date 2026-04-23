@@ -56,7 +56,7 @@ const Register = ({ users, handleRegister }) => {
 
   const getPrivateUniversity = async () => {
     try {
-      const { data } = await http.get("/api/university/private");
+      const { data } = await http.get("/api/universities/private");
       const universities = data.map((u) => u.name);
       setPrivateUniversities(universities);
     } catch (ex) {
@@ -65,7 +65,7 @@ const Register = ({ users, handleRegister }) => {
   };
   const getStateUniversity = async () => {
     try {
-      const { data } = await http.get("/api/university/state");
+      const { data } = await http.get("/api/universities/state");
       const universities = data.map((u) => u.name);
       setStateUniversities(universities);
     } catch (ex) {
