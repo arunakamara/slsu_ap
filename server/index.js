@@ -19,7 +19,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use("/", home);
-app.use("/api/university", university);
+app.use("/api/universities", university);
 app.use("/api/members", members);
 app.use("/api/certificates", certificates);
 
