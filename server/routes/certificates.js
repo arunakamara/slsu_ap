@@ -45,6 +45,7 @@ router.post("/", async (req, res) => {
     institution: req.body.institution,
     status: req.body.status || "valid",
     notes: req.body.notes,
+    tenure_of_service: req.body.tenure_of_service,
   });
 
   certificate = await certificate.save();
@@ -67,6 +68,7 @@ router.put("/:id", async (req, res) => {
       position: req.body.position,
       status: req.body.status || "valid",
       notes: req.body.notes,
+      tenure_of_service: req.body.tenure_of_service,
     },
     { new: true }
   );

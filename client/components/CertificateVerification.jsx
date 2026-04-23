@@ -201,8 +201,8 @@ const CertificateVerification = () => {
                       {verificationResult.certificate.position}
                     </li>
                     <li>
-                      <strong>Issue year:</strong>{" "}
-                      {verificationResult.certificate.issueYear}
+                      <strong>Tenure:</strong>{" "}
+                      {verificationResult.certificate.tenure}
                     </li>
                     <li>
                       <li>
@@ -211,6 +211,10 @@ const CertificateVerification = () => {
                       </li>
                       <strong>Institution:</strong>{" "}
                       {verificationResult.certificate.institution}
+                    </li>
+                    <li>
+                      <strong>Issue year:</strong>{" "}
+                      {verificationResult.certificate.issueYear}
                     </li>
                   </ul>
                 </div>

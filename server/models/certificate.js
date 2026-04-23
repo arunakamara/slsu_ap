@@ -41,6 +41,10 @@ const certificateSchema = new mongoose.Schema(
       enum: ["valid", "invalid", "revoked"],
       default: "valid",
     },
+    tenure_of_service: {
+      type: String,
+      trim: true,
+    },
     notes: {
       type: String,
       trim: true,
@@ -60,6 +64,7 @@ function validateCertificate(certificate) {
     issueYear: Joi.number().integer().min(1900).max(2100).required(),
     institution: Joi.string().trim().required(),
     status: Joi.string().valid("valid", "invalid", "revoked").optional(),
+    tenure_of_service: Joi.string().trim().optional(),
     notes: Joi.string().trim().optional(),
   });
 
