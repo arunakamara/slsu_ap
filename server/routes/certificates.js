@@ -38,13 +38,15 @@ router.post("/", async (req, res) => {
 
   let certificate = new Certificate({
     certificateId: req.body.certificateId.trim().toUpperCase(),
-    holderName: req.body.holderName,
-    program: req.body.program,
+    name: req.body.name,
+    positionHeld: req.body.positionHeld,
+    tenureOfService: req.body.tenureOfService,
+    course: req.body.course,
+    universityName: req.body.universityName,
+    contributionNote: req.body.contributionNote,
     issueYear: req.body.issueYear,
-    institution: req.body.institution,
     issuedDate: req.body.issuedDate,
     status: req.body.status || "valid",
-    notes: req.body.notes,
   });
 
   certificate = await certificate.save();
@@ -60,13 +62,15 @@ router.put("/:id", async (req, res) => {
     { certificateId: req.params.id.trim().toUpperCase() },
     {
       certificateId: req.body.certificateId.trim().toUpperCase(),
-      holderName: req.body.holderName,
-      program: req.body.program,
+      name: req.body.name,
+      positionHeld: req.body.positionHeld,
+      tenureOfService: req.body.tenureOfService,
+      course: req.body.course,
+      universityName: req.body.universityName,
+      contributionNote: req.body.contributionNote,
       issueYear: req.body.issueYear,
-      institution: req.body.institution,
       issuedDate: req.body.issuedDate,
       status: req.body.status || "valid",
-      notes: req.body.notes,
     },
     { new: true }
   );

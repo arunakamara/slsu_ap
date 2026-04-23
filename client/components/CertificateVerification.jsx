@@ -5,12 +5,12 @@ import http from "../services/httpService";
 const CertificateVerification = () => {
   const [searchParams] = useSearchParams();
   const [certificateId, setCertificateId] = useState("");
-  const [holderName, setHolderName] = useState("");
+  const [name, setName] = useState("");
   const [issueYear, setIssueYear] = useState("");
   const [verificationResult, setVerificationResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchCertificate = async ({ id, name, year }) => {
+  const fetchCertificate = async ({ id, personName, year }) => {
     const normalizedId = id?.trim().toUpperCase();
     if (!normalizedId) {
       setVerificationResult({
@@ -27,9 +27,9 @@ const CertificateVerification = () => {
       );
       const warnings = [];
 
-      if (name && name.trim().length > 0) {
-        if (data.holderName.toLowerCase() !== name.trim().toLowerCase()) {
-          warnings.push("Holder name does not match the certificate record.");
+      if (personName && personName.trim().length > 0) {
+        if (data.name.toLowerCase() !== personName.trim().toLowerCase()) {
+          warnings.push("Name does not match the certificate record.");
         }
       }
       if (year && year.trim().length > 0) {
@@ -70,7 +70,7 @@ const CertificateVerification = () => {
     event.preventDefault();
     fetchCertificate({
       id: certificateId,
-      name: holderName,
+      personName: name,
       year: issueYear,
     });
   };
@@ -82,9 +82,9 @@ const CertificateVerification = () => {
 
     if (qrId) {
       setCertificateId(qrId);
-      if (qrName) setHolderName(qrName);
+      if (qrName) setName(qrName);
       if (qrYear) setIssueYear(qrYear);
-      fetchCertificate({ id: qrId, name: qrName, year: qrYear });
+      fetchCertificate({ id: qrId, personName: qrName, year: qrYear });
     }
   }, [searchParams]);
 
@@ -115,13 +115,13 @@ const CertificateVerification = () => {
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-2" htmlFor="holderName">
-                Certificate Holder Name (optional)
+              <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
+                Name (optional)
               </label>
               <input
-                id="holderName"
-                value={holderName}
-                onChange={(event) => setHolderName(event.target.value)}
+                id="name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
                 placeholder="Full name as printed on certificate"
                 className="w-full rounded-xl border border-gray-300 p-3 focus:border-green-700 focus:outline-none"
               />
@@ -174,16 +174,25 @@ const CertificateVerification = () => {
                       <strong>ID:</strong> {verificationResult.certificate.certificateId}
                     </li>
                     <li>
-                      <strong>Holder:</strong> {verificationResult.certificate.holderName}
+                      <strong>Name:</strong> {verificationResult.certificate.name}
                     </li>
                     <li>
-                      <strong>Program:</strong> {verificationResult.certificate.program}
+                      <strong>Position Held:</strong> {verificationResult.certificate.positionHeld}
                     </li>
                     <li>
-                      <strong>Issue year:</strong> {verificationResult.certificate.issueYear}
+                      <strong>Tenure of Service:</strong> {verificationResult.certificate.tenureOfService}
                     </li>
                     <li>
-                      <strong>Institution:</strong> {verificationResult.certificate.institution}
+                      <strong>Course:</strong> {verificationResult.certificate.course}
+                    </li>
+                    <li>
+                      <strong>University Name:</strong> {verificationResult.certificate.universityName}
+                    </li>
+                    <li>
+                      <strong>Contribution Note:</strong> {verificationResult.certificate.contributionNote}
+                    </li>
+                    <li>
+                      <strong>Issue Year:</strong> {verificationResult.certificate.issueYear}
                     </li>
                   </ul>
                 </div>

@@ -10,12 +10,32 @@ const certificateSchema = new mongoose.Schema(
       unique: true,
       uppercase: true,
     },
-    holderName: {
+    name: {
       type: String,
       required: true,
       trim: true,
     },
-    program: {
+    positionHeld: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    tenureOfService: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    course: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    universityName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    contributionNote: {
       type: String,
       required: true,
       trim: true,
@@ -26,11 +46,6 @@ const certificateSchema = new mongoose.Schema(
       min: 1900,
       max: 2100,
     },
-    institution: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     issuedDate: {
       type: Date,
       default: Date.now,
@@ -39,10 +54,6 @@ const certificateSchema = new mongoose.Schema(
       type: String,
       enum: ["valid", "invalid", "revoked"],
       default: "valid",
-    },
-    notes: {
-      type: String,
-      trim: true,
     },
   },
   { timestamps: true }
@@ -53,13 +64,15 @@ const Certificate = mongoose.model("Certificate", certificateSchema);
 function validateCertificate(certificate) {
   const schema = Joi.object({
     certificateId: Joi.string().trim().required(),
-    holderName: Joi.string().trim().required(),
-    program: Joi.string().trim().required(),
+    name: Joi.string().trim().required(),
+    positionHeld: Joi.string().trim().required(),
+    tenureOfService: Joi.string().trim().required(),
+    course: Joi.string().trim().required(),
+    universityName: Joi.string().trim().required(),
+    contributionNote: Joi.string().trim().required(),
     issueYear: Joi.number().integer().min(1900).max(2100).required(),
-    institution: Joi.string().trim().required(),
     issuedDate: Joi.date().optional(),
     status: Joi.string().valid("valid", "invalid", "revoked").optional(),
-    notes: Joi.string().trim().optional(),
   });
 
   return schema.validate(certificate);
