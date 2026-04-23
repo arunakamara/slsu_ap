@@ -5,12 +5,12 @@ import http from "../services/httpService";
 const CertificateVerification = () => {
   const [searchParams] = useSearchParams();
   const [certificateId, setCertificateId] = useState("");
-  const [name, setName] = useState("");
+  const [holderName, setHolderName] = useState("");
   const [issueYear, setIssueYear] = useState("");
   const [verificationResult, setVerificationResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchCertificate = async ({ id, personName, year }) => {
+  const fetchCertificate = async ({ id, name, year }) => {
     const normalizedId = id?.trim().toUpperCase();
     if (!normalizedId) {
       setVerificationResult({
@@ -23,13 +23,13 @@ const CertificateVerification = () => {
     setLoading(true);
     try {
       const { data } = await http.get(
-        `/api/certificates/verify?id=${encodeURIComponent(normalizedId)}`
+        `/api/certificates/verify?id=${encodeURIComponent(normalizedId)}`,
       );
       const warnings = [];
 
-      if (personName && personName.trim().length > 0) {
-        if (data.name.toLowerCase() !== personName.trim().toLowerCase()) {
-          warnings.push("Name does not match the certificate record.");
+      if (name && name.trim().length > 0) {
+        if (data.holderName.toLowerCase() !== name.trim().toLowerCase()) {
+          warnings.push("Holder name does not match the certificate record.");
         }
       }
       if (year && year.trim().length > 0) {
@@ -48,7 +48,8 @@ const CertificateVerification = () => {
       if (error.response && error.response.status === 404) {
         setVerificationResult({
           status: "invalid",
-          message: "This certificate is invalid or not found in the verification registry.",
+          message:
+            "This certificate is invalid or not found in the verification registry.",
           certificate: null,
           warnings: [],
         });
@@ -70,7 +71,7 @@ const CertificateVerification = () => {
     event.preventDefault();
     fetchCertificate({
       id: certificateId,
-      personName: name,
+      name: holderName,
       year: issueYear,
     });
   };
@@ -82,9 +83,9 @@ const CertificateVerification = () => {
 
     if (qrId) {
       setCertificateId(qrId);
-      if (qrName) setName(qrName);
+      if (qrName) setHolderName(qrName);
       if (qrYear) setIssueYear(qrYear);
-      fetchCertificate({ id: qrId, personName: qrName, year: qrYear });
+      fetchCertificate({ id: qrId, name: qrName, year: qrYear });
     }
   }, [searchParams]);
 
@@ -92,17 +93,26 @@ const CertificateVerification = () => {
     <section className="py-16 bg-white">
       <div className="max-w-4xl mx-auto px-4">
         <div className="bg-gray-50 border border-green-200 rounded-3xl p-8 shadow-sm">
-          <h1 className="text-4xl font-bold text-green-800 mb-4">Certificate Verification</h1>
+          <h1 className="text-4xl font-bold text-green-800 mb-4">
+            Certificate Verification
+          </h1>
           <p className="text-gray-600 mb-4">
-            Scan the certificate QR code to open this page and validate the record automatically.
+            Scan the certificate QR code to open this page and validate the
+            record automatically.
           </p>
           <p className="text-gray-600 mb-8">
-            Example QR code URL: <span className="font-medium">/verify-certificate?id=SLSU-AP-2025-001</span>
+            Example QR code URL:{" "}
+            <span className="font-medium">
+              /verify-certificate?id=SLSU-AP-2025-001
+            </span>
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-gray-700 font-medium mb-2" htmlFor="certificateId">
+              <label
+                className="block text-gray-700 font-medium mb-2"
+                htmlFor="certificateId"
+              >
                 Certificate Number
               </label>
               <input
@@ -115,20 +125,26 @@ const CertificateVerification = () => {
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
-                Name (optional)
+              <label
+                className="block text-gray-700 font-medium mb-2"
+                htmlFor="holderName"
+              >
+                Certificate Holder Name (optional)
               </label>
               <input
-                id="name"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
+                id="holderName"
+                value={holderName}
+                onChange={(event) => setHolderName(event.target.value)}
                 placeholder="Full name as printed on certificate"
                 className="w-full rounded-xl border border-gray-300 p-3 focus:border-green-700 focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-2" htmlFor="issueYear">
+              <label
+                className="block text-gray-700 font-medium mb-2"
+                htmlFor="issueYear"
+              >
                 Issue Year (optional)
               </label>
               <input
@@ -161,38 +177,40 @@ const CertificateVerification = () => {
                 {verificationResult.status === "valid"
                   ? "Certificate is valid"
                   : verificationResult.status === "invalid"
-                  ? "Certificate is invalid"
-                  : "Verification required"}
+                    ? "Certificate is invalid"
+                    : "Verification required"}
               </p>
               <p>{verificationResult.message}</p>
 
               {verificationResult.certificate && (
                 <div className="mt-4 rounded-2xl bg-white border border-green-100 p-4">
-                  <h2 className="text-xl font-semibold text-green-800 mb-3">Certificate details</h2>
+                  <h2 className="text-xl font-semibold text-green-800 mb-3">
+                    Certificate details
+                  </h2>
                   <ul className="space-y-2 text-gray-700">
                     <li>
-                      <strong>ID:</strong> {verificationResult.certificate.certificateId}
+                      <strong>ID:</strong>{" "}
+                      {verificationResult.certificate.certificateId}
                     </li>
                     <li>
-                      <strong>Name:</strong> {verificationResult.certificate.name}
+                      <strong>Holder:</strong>{" "}
+                      {verificationResult.certificate.holderName}
                     </li>
                     <li>
-                      <strong>Position Held:</strong> {verificationResult.certificate.positionHeld}
+                      <strong>Position:</strong>{" "}
+                      {verificationResult.certificate.position}
                     </li>
                     <li>
-                      <strong>Tenure of Service:</strong> {verificationResult.certificate.tenureOfService}
+                      <strong>Issue year:</strong>{" "}
+                      {verificationResult.certificate.issueYear}
                     </li>
                     <li>
-                      <strong>Course:</strong> {verificationResult.certificate.course}
-                    </li>
-                    <li>
-                      <strong>University Name:</strong> {verificationResult.certificate.universityName}
-                    </li>
-                    <li>
-                      <strong>Contribution Note:</strong> {verificationResult.certificate.contributionNote}
-                    </li>
-                    <li>
-                      <strong>Issue Year:</strong> {verificationResult.certificate.issueYear}
+                      <li>
+                        <strong>Program:</strong>{" "}
+                        {verificationResult.certificate.program}
+                      </li>
+                      <strong>Institution:</strong>{" "}
+                      {verificationResult.certificate.institution}
                     </li>
                   </ul>
                 </div>
@@ -214,7 +232,12 @@ const CertificateVerification = () => {
           <div className="mt-8 text-gray-600">
             <p className="font-semibold">Note:</p>
             <p>
-              Use a QR code that opens a URL such as <span className="font-medium">/verify-certificate?id=YOUR_CERTIFICATE_ID</span>. When scanned, this page will automatically verify the certificate and display its status and details.
+              Use a QR code that opens a URL such as{" "}
+              <span className="font-medium">
+                /verify-certificate?id=YOUR_CERTIFICATE_ID
+              </span>
+              . When scanned, this page will automatically verify the
+              certificate and display its status and details.
             </p>
           </div>
         </div>

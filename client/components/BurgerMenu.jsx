@@ -60,11 +60,6 @@ const BurgerMenu = () => {
               </Link>
             </li>
             <li>
-              <Link to="/verify-certificate" className="drop-down-links" onClick={toggleButton}>
-                Verify Certificate
-              </Link>
-            </li>
-            <li>
               <Link to="/resources" className="drop-down-links" onClick={toggleButton}>
                 Resources
               </Link>

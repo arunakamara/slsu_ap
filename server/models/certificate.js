@@ -10,32 +10,22 @@ const certificateSchema = new mongoose.Schema(
       unique: true,
       uppercase: true,
     },
-    name: {
+    holderName: {
       type: String,
       required: true,
       trim: true,
     },
-    positionHeld: {
+    position: {
       type: String,
       required: true,
       trim: true,
     },
-    tenureOfService: {
+    program: {
       type: String,
       required: true,
       trim: true,
     },
-    course: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    universityName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    contributionNote: {
+    institution: {
       type: String,
       required: true,
       trim: true,
@@ -46,14 +36,14 @@ const certificateSchema = new mongoose.Schema(
       min: 1900,
       max: 2100,
     },
-    issuedDate: {
-      type: Date,
-      default: Date.now,
-    },
     status: {
       type: String,
       enum: ["valid", "invalid", "revoked"],
       default: "valid",
+    },
+    notes: {
+      type: String,
+      trim: true,
     },
   },
   { timestamps: true }
@@ -64,15 +54,13 @@ const Certificate = mongoose.model("Certificate", certificateSchema);
 function validateCertificate(certificate) {
   const schema = Joi.object({
     certificateId: Joi.string().trim().required(),
-    name: Joi.string().trim().required(),
-    positionHeld: Joi.string().trim().required(),
-    tenureOfService: Joi.string().trim().required(),
-    course: Joi.string().trim().required(),
-    universityName: Joi.string().trim().required(),
-    contributionNote: Joi.string().trim().required(),
+    holderName: Joi.string().trim().required(),
+    position: Joi.string().trim().required(),
+    program: Joi.string().trim().required(),
     issueYear: Joi.number().integer().min(1900).max(2100).required(),
-    issuedDate: Joi.date().optional(),
+    institution: Joi.string().trim().required(),
     status: Joi.string().valid("valid", "invalid", "revoked").optional(),
+    notes: Joi.string().trim().optional(),
   });
 
   return schema.validate(certificate);
