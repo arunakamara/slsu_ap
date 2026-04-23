@@ -216,6 +216,10 @@ const CertificateVerification = () => {
                       <strong>Issue year:</strong>{" "}
                       {verificationResult.certificate.issueYear}
                     </li>
+                    <li>
+                      <strong>Contribution:</strong>{" "}
+                      {verificationResult.certificate.notes}
+                    </li>
                   </ul>
                 </div>
               )}
