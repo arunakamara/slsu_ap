@@ -202,7 +202,7 @@ const CertificateVerification = () => {
                     </li>
                     <li>
                       <strong>Tenure:</strong>{" "}
-                      {verificationResult.certificate.tenure}
+                      {verificationResult.certificate.tenure_of_service || "N/A"}
                     </li>
                     <li>
                       <li>
